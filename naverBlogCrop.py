@@ -2,7 +2,8 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from itertools import count 
+from itertools import count
+import db_Insert
 
 def naver_content_cralwler(url):
     hrd = {'User-Agent':'Mozilla/5.0', 'referer':'http://naver.com'}
@@ -75,7 +76,7 @@ def naver_content_text_cralwler(url):
 
     return ""
 
-def naver_cralwler(input_search): #사용자로부터 max_page 받아오기
+def naver_cralwler(conn, input_search): #사용자로부터 max_page 받아오기
     url = 'https://search.naver.com/search.naver'
     hrd = {'User-Agent':'Mozilla/5.0', 'referer':'http://naver.com'}
     post_dict = OrderedDict()
@@ -94,11 +95,11 @@ def naver_cralwler(input_search): #사용자로부터 max_page 받아오기
     try:
         for tag in page_num:
             if tag.text in post_dict:
-                return post_dict, 0, 0, 0, 0, 0, 0, 0
+                return post_dict, 0, 0, 0, 0, 0, 0, 0, 0
             
             num = int(tag.text.split('/')[1][:-1].strip().replace(",", ""))
             if(num <= 1):
-                return post_dict, 0, 0, 0, 0, 0, 0, 0
+                return post_dict, 0, 0, 0, 0, 0, 0, 0, 0
             
             print("블로그 수 : " + tag.text.split('/')[1][:-1])
             print("")
@@ -121,7 +122,7 @@ def naver_cralwler(input_search): #사용자로부터 max_page 받아오기
     if num > 1002:
         check = 1001
     else:
-        check = num
+        check = num - 1
 
     cnt = 0
     for x in range(1, check, 10):
@@ -204,5 +205,7 @@ def naver_cralwler(input_search): #사용자로부터 max_page 받아오기
         print("날짜 : " + date_array[x])
         print("닉네임 : " + nicname_array[x])
         print("")
+        db_Insert.db_insert(conn, str(x) + input_search, title_array[x], link_array[x], 
+            str(img_numx[x]), context_array[x], date_array[x], nicname_array[x], "미판정", "미판정", "미판정")
     
-    return title_array, link_array, img_array, img_numx, context_array, data_array, date_array, nicname_array
+    return num, title_array, link_array, img_array, img_numx, context_array, data_array, date_array, nicname_array
