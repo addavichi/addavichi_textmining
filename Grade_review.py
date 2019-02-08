@@ -14,7 +14,7 @@ W2V = Word2Vec.Word2Vec()
 
 Batch_size = 1
 Vector_size = 300
-Maxseq_length = 95   ## Max length of training data
+Maxseq_length = 95
 learning_rate = 0.001
 lstm_units = 128
 num_class = 2
