@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*
 
 import sys
-sys.path.insert(0, '/Users/davichiar/Documents/ADDAVICHI/Python/Sentimental-Analysis-master/Bidirectional_LSTM')
-
 import os
 import tensorflow as tf
 import Bi_LSTM
@@ -31,8 +29,6 @@ with tf.variable_scope("loss", reuse = tf.AUTO_REUSE):
     loss, optimizer = BiLSTM.model_build(logits, Y, learning_rate)
 
 prediction = tf.nn.softmax(logits)
-
-os.chdir("/Users/davichiar/Documents/ADDAVICHI/Python/Sentimental-Analysis-master/Bidirectional_LSTM")
 
 def Convert2Vec(model_name, sentence):
     word_vec = []

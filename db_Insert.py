@@ -1,7 +1,6 @@
 import pymysql.cursors
 
 def db_setting():
-    conn = pymysql.connect(host='davichiar1.cafe24.com', port=3306, user='davichiar1', passwd='a1b1c1**', db='davichiar1', charset='utf8')
     conn.query("set character_set_connection=utf8;")
     conn.query("set character_set_server=utf8;")
     conn.query("set character_set_client=utf8;")
